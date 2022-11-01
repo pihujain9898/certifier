@@ -1,0 +1,81 @@
+*{
+    margin:0;
+    padding:0;
+}
+body{
+    margin: 0 10vw;
+}
+
+.drag-box{
+    border: 2px solid lightgrey;
+    height: 40vh;
+    margin-top: 20vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.drag-box label, .drag-box label i{
+    display: block;
+    text-align: center;
+}
+.drag-box input[type=file]{
+    position: absolute;
+    top: 0;
+    display: block;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.certificate-page{
+    margin: auto;
+    padding: 0;
+}
+.ceritificate-box{
+    padding: 0;
+}
+.ceritificate-box img{
+    max-width: 100%;
+    height: auto;
+}
+
+.ceritificate-control-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem 1rem 1rem 2rem;
+}
+.ceritificate-control-box form{
+    padding: 2rem;
+    box-shadow: 5px 5px 40px 5px #88888860;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+@media (max-aspect-ratio:9/19){
+    .ceritificate-control-box{
+        padding: 0;
+        margin: 1rem 0 0 0;
+    }
+}
+.scrollText {
+    position: absolute;
+    top: 42vh;
+    left: 35vw;
+    z-index: 3;
+    user-select: none;
+    cursor: grab;
+}
+#textChild{
+    display: none;
+    justify-content: space-between;
+    padding-right:0;
+}
+#textChild label{
+    font-size: 1.4rem;
+}
+#textChild, #textChild div, #textChild div input, #textChild div label, #textChild div button{
+    padding: 0;
+    margin: 0;
+}
