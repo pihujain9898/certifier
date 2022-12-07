@@ -14,7 +14,7 @@ imgData.setAttribute("value", dataToBeSetted);
 document.getElementById("textParent").appendChild(imgData);  
 reloadDrag();
 
-let elementCount=-1;
+var elementCount = elementCount || -1;
 function addTexts() {
     // this.preventDefault();
     elementCount=elementCount+1;
@@ -28,7 +28,7 @@ function addTexts() {
     input.className = 'scrollInput';
     input.setAttribute("type", "hidden");
     input.setAttribute("data-id", elementCount);
-    input.setAttribute("name", "property-"+(elementCount+1));
+    input.setAttribute("name", "attribute-"+(elementCount+1));
     let dataToBeSetted = '{"attribType":"static", "attribName":"", "attribSample":"","fontSize":""}';
     input.setAttribute("value", dataToBeSetted);
     document.getElementById("textParent").appendChild(input);    
@@ -151,8 +151,8 @@ function dragElement(elmnt) {
         index = elementToShow.getAttribute("data-id");
         setData = $(".scrollInput")[index];
         newData = JSON.parse(setData.value);
-        Object.assign(newData).xPosition=(elmnt.offsetLeft - pos1)-certificateImg.offsetLeft+(elmnt.offsetWidth/2);
-        Object.assign(newData).yPosition=(elmnt.offsetTop - pos2)-certificateImg.offsetTop+(elmnt.offsetHeight/2);
+        Object.assign(newData).xPosition=((elmnt.offsetLeft - pos1)-certificateImg.offsetLeft+(elmnt.offsetWidth/2))+"px";
+        Object.assign(newData).yPosition=((elmnt.offsetTop - pos2)-certificateImg.offsetTop+(elmnt.offsetHeight/2))+"px";
         setData.value = JSON.stringify(newData);
     }
 

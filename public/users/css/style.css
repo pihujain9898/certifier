@@ -1,12 +1,27 @@
-*{
-    margin:0;
-    padding:0;
+* {
+    margin: 0;
+    padding: 0;
 }
-body{
+
+body {
     margin: 0 10vw;
 }
 
-.drag-box{
+.nav-link {
+    color: rgb(187, 187, 187);
+}
+
+.nav-link:hover,
+.navbar-brand:hover {
+    color: rgb(234, 234, 234);
+}
+
+.navbar-brand,
+.navbar-nav .nav-link.active {
+    color: rgb(236, 236, 236);
+}
+
+.drag-box {
     border: 2px solid lightgrey;
     height: 40vh;
     margin-top: 20vh;
@@ -15,11 +30,14 @@ body{
     flex-direction: column;
     justify-content: center;
 }
-.drag-box label, .drag-box label i{
+
+.drag-box label,
+.drag-box label i {
     display: block;
     text-align: center;
 }
-.drag-box input[type=file]{
+
+.drag-box input[type=file] {
     position: absolute;
     top: 0;
     display: block;
@@ -28,37 +46,42 @@ body{
     height: 100%;
 }
 
-.certificate-page{
+.certificate-page {
     margin: auto;
     padding: 0;
 }
-.ceritificate-box{
+
+.ceritificate-box {
     padding: 0;
 }
-.ceritificate-box img{
+
+.ceritificate-box img {
     max-width: 100%;
     height: auto;
 }
 
-.ceritificate-control-box{
+.ceritificate-control-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 1rem 1rem 1rem 2rem;
 }
-.ceritificate-control-box form{
+
+.ceritificate-control-box form {
     padding: 2rem;
     box-shadow: 5px 5px 40px 5px #88888860;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
-@media (max-aspect-ratio:9/19){
-    .ceritificate-control-box{
+
+@media (max-aspect-ratio:9/19) {
+    .ceritificate-control-box {
         padding: 0;
         margin: 1rem 0 0 0;
     }
 }
+
 .scrollText {
     position: absolute;
     top: 42vh;
@@ -67,15 +90,300 @@ body{
     user-select: none;
     cursor: grab;
 }
-#textChild{
+
+#textChild {
     display: none;
     justify-content: space-between;
-    padding-right:0;
+    padding-right: 0;
 }
-#textChild label{
+
+#textChild label {
     font-size: 1.4rem;
 }
-#textChild, #textChild div, #textChild div input, #textChild div label, #textChild div button{
+
+#textChild,
+#textChild div,
+#textChild div input,
+#textChild div label,
+#textChild div button {
     padding: 0;
     margin: 0;
+}
+
+
+
+/* Login Page */
+.home-header-bg {
+    position: absolute;
+    right: 0;
+    top: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+    width: auto;
+    height: auto;
+    z-index: -1;
+}
+
+@media (min-aspect-ratio: 16 / 9) {
+    .home-header-bg {
+        width: 100vw;
+        height: auto;
+    }
+}
+
+@media (max-aspect-ratio: 9 / 16) {
+    .home-header-bg {
+        width: auto;
+        height: 100vh;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .home-header-bg {
+        width: auto;
+        height: 200vh;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .home-header-bg {
+        width: auto;
+        height: 120vh;
+    }
+}
+
+.form-heading {
+    font-size: 25px;
+    font-weight: 640;
+    margin-bottom: 10px;
+    color: #e7e7e7;
+    padding: 6px;
+    font-family: 'sans-serif', 'helvetica';
+    border-bottom: 2px solid rgb(223, 223, 223);
+    padding-bottom: .6em;
+}
+
+.form-wrapper {
+    width: 300px;
+    height: 412px;
+    margin: 150px auto;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 25px;
+    border-radius: 5px;
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.6), inset 0px 1px 0px rgba(255, 255, 255, 0.04);
+}
+
+.signup-form-wrapper {
+    height: 506px;
+    margin: 85px auto;
+}
+
+.form-item {
+    color: whitesmoke;
+    width: 100%;
+}
+
+.form-item input {
+    border: none;
+    background: transparent;
+    color: #fff;
+    margin-top: 11px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2em;
+    height: 49px;
+    padding: 0 16px;
+    width: 100%;
+    padding-left: 55px;
+
+}
+
+input[name='password'] {
+    background: transparent url("img/pass.png") no-repeat;
+    background-position: 10px 50%;
+}
+
+input[name='password_confirmation'] {
+    background: transparent url("img/repass.png") no-repeat;
+    background-position: 10px 50%;
+}
+
+input[type='text'] {
+    background: transparent url("img/user.png") no-repeat;
+    background-position: 10px 50%;
+
+}
+
+input[type='email'] {
+    background: transparent url("img/mail.png") no-repeat;
+    background-position: 10px 50%;
+
+}
+
+.form-item input:focus {
+    outline: none;
+    border: 1.4px solid #cfecf0;
+}
+
+.button-panel {
+    margin-bottom: 20px;
+    padding-top: 10px;
+    width: 100%;
+}
+
+.button-panel .button {
+    background: #00b6df;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    height: 50px;
+    font-family: 'helvetica', 'Open Sans', sans-serif;
+    font-size: 1.2em;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.button:hover {
+    background: #6eb7cb;
+}
+
+.form-item input,
+.button-panel .button {
+    border-radius: 2px
+}
+
+.reminder {
+    text-align: center;
+}
+
+.reminder a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.2s;
+
+}
+
+.reminder a:hover {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+::placeholder {
+    color: whitesmoke;
+    opacity: 1;
+}
+
+.login-icon {
+    width: 1.8em;
+    margin: 0 0.4em 1em;
+}
+
+form span {
+    font-size: 0.8rem;
+}
+
+.pas-vis-btn {
+    position: relative;
+    top: -41px;
+    left: 221px;
+    font-size: 1.25em;
+}
+
+/* Project Page */
+.project-header{
+    height: 400px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: black;
+    z-index: -1;
+}
+.projects-heading{
+    color: white;
+    margin-top: 5.4em;
+}
+.project-container{
+    padding: 0;
+}
+.project-card, .new-project{
+    height: 250px;
+    margin-top: 1.75em;
+}
+.project-card div{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: white;
+    box-sizing: border-box;
+    border-radius: 2.4%;
+    box-shadow: 1px 1px 10px 0px rgba(104, 104, 104, 0.4);
+    padding: 1.2em;
+}
+@media (max-width: 540px) {
+    .new-project{
+        height: 64px;
+    }
+}
+.new-project div{
+    padding: 0;
+}
+.project-card button[type="submit"] {
+    border: none;
+    border-radius: 2.4%;
+    width: 100%;
+    height: 100%;
+    color: #E76020;
+    background-color: white;
+}
+.project-card button[type="submit"]:hover{
+    color: #4169E1;
+}
+.project-form input[type="text"]{
+    width: 100%;
+    color: black;
+    padding: 0.4rem;
+}
+.project-form input[type="text"]::placeholder{
+    color: grey;
+}
+.project-card h5{
+    text-transform: capitalize;
+}
+.project-card i,.project-card a{
+    text-decoration: none;
+}
+.project-card p{
+    margin: 0;
+}
+.certificateTemlate {
+    color: #EE892F;
+}
+.reciversData {
+    color: #E0BB76;
+}
+.emailDesgin {
+    color: #6E896A;
+}
+.generatedCertificate {
+    color: #325434;
+}
+.project-card section a p:hover{
+    color: #4169E1;
+}
+.data-table-heading{
+    margin: 2rem 0;
+    color: rgb(33,37,41);
+}
+.data-table-dropbox{
+    border: none;
+}
+.data-table-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.data-table-div input[type="submit"]{
+    height: 2.4rem;
 }

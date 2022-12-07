@@ -16,8 +16,12 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("user");
+            $table->string("project_name");
             $table->string("template")->nullable();
+            $table->json("templateSize")->nullable();
+            $table->json("textAttribs")->nullable();
             $table->string("datasrc")->nullable();
+            $table->json("dataFileAttribs")->nullable();
             $table->timestamps();
 
         });
