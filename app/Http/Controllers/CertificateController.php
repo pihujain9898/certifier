@@ -104,10 +104,13 @@ class CertificateController extends Controller
     }
     public function getDataAttribs($id, Request $req){
         $data=$req->except('_token');
+        // $data=array_values($data);
+        // $arr=array();
+        // for ($i=0; $i<count($data); $i++){            
+        //     $arr[$i+1] = $data[$i];
+        // }
         DB::table('projects')->where('user', '=', session()->get('u_id'))->where('id', $id)->update(['dataFileAttribs' => $data]);
-
-        echo "<pre>";
-        print_r($req->except('_token'));
-        echo "</pre>";
+        return redirect('/mail-certificate'.'/'.$id);
     }
+
 }

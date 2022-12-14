@@ -151,6 +151,8 @@ function dragElement(elmnt) {
         index = elementToShow.getAttribute("data-id");
         setData = $(".scrollInput")[index];
         newData = JSON.parse(setData.value);
+        // Object.assign(newData).xPosition=((elmnt.offsetLeft - pos1)-certificateImg.offsetLeft+(elmnt.offsetWidth/2))+"px";
+        // Object.assign(newData).yPosition=((elmnt.offsetTop - pos2)-certificateImg.offsetTop+(elmnt.offsetHeight/2))+"px";
         Object.assign(newData).xPosition=((elmnt.offsetLeft - pos1)-certificateImg.offsetLeft+(elmnt.offsetWidth/2))+"px";
         Object.assign(newData).yPosition=((elmnt.offsetTop - pos2)-certificateImg.offsetTop+(elmnt.offsetHeight/2))+"px";
         setData.value = JSON.stringify(newData);

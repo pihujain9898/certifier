@@ -19,6 +19,7 @@
                   @foreach($attribArray as $item)
                   <option value="{{strtolower($item)}}">{{ucfirst($item)}}</option>
                   @endforeach
+                  <option value="email">Email</option>
                 </select> 
             </th>
         @endfor

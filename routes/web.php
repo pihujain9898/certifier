@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,9 @@ Route::middleware(['middleware' => 'userLogin'])->group(function () {
     
     Route::get('/show-data-table/{id}', [CertificateController::class, 'showDataTable']);
     Route::post('/get-data-attribs/{id}', [CertificateController::class, 'getDataAttribs']);
-
-
+    
+    Route::get('/mail-certificate/{id}', [MailController::class, 'getMailCred']);
+    Route::post('/save-mail/{id}', [MailController::class, 'setMailCred']);
+    Route::post('/mail-certificate/{id}', [MailController::class, 'sendMail']);
+    
 });

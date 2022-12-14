@@ -197,23 +197,23 @@ body {
 
 }
 
-input[name='password'] {
+.form-item input[name='password'] {
     background: transparent url("img/pass.png") no-repeat;
     background-position: 10px 50%;
 }
 
-input[name='password_confirmation'] {
+.form-item input[name='password_confirmation'] {
     background: transparent url("img/repass.png") no-repeat;
     background-position: 10px 50%;
 }
 
-input[type='text'] {
+.form-item input[type='text'] {
     background: transparent url("img/user.png") no-repeat;
     background-position: 10px 50%;
 
 }
 
-input[type='email'] {
+.form-item input[type='email'] {
     background: transparent url("img/mail.png") no-repeat;
     background-position: 10px 50%;
 
@@ -386,4 +386,67 @@ form span {
 }
 .data-table-div input[type="submit"]{
     height: 2.4rem;
+}
+
+/* ----------- Mail Page ------------- */
+.mail-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mail-page .row{
+    margin-top: 4rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.mail-attrib-box{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.mail-attrib-box h3{
+    margin-bottom: 1.6rem;
+}
+.mail-attrib-box input{
+    padding: .3rem .5rem;
+    width: 100%;
+    margin-bottom: 1.6rem;
+}
+.mail-attrib-box input::placeholder{
+    color: grey;
+}
+.mail-page textarea{
+    width: 100%;
+    height: 41vh;
+    padding: .3rem .5rem;
+}
+.mail-page textarea::placeholder{
+    color: grey;
+}
+.mail-page div{
+    padding: 0;
+}
+.textarea-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+@media (max-width: 900px) {
+    .textarea-box{
+        justify-content: center;
+    }
+}
+@media (max-width: 540px) {
+    .mail-page .row{
+        flex-direction: column-reverse;
+    }
+    .mail-attrib-box{
+        margin-top: 2rem;
+    }
+}
+.btn-info{
+    color: #fff;
 }

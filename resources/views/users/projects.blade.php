@@ -37,7 +37,7 @@
         <section>
           <a href="{{url('/savedCertificate').'/'.$project->id}}"><p class="certificateTemlate"><i class="bi bi-image"></i> Certificate Template</p></a>
           <a href="{{url('/show-data-table').'/'.$project->id}}"><p class="reciversData"><i class="bi bi-clipboard-data"></i> Recivers Data</p></a>
-          <a href="#"><p class="emailDesgin"><i class="bi bi-envelope"></i> Email Desgin</p></a>
+          <a href="{{url('/mail-certificate').'/'.$project->id}}"><p class="emailDesgin"><i class="bi bi-envelope"></i> Email Desgin</p></a>
           <a href="#"><p class="generatedCertificate"><i class="bi bi-collection-fill"></i> Genrated Certificates</p></a>
         </section>
       </div>
