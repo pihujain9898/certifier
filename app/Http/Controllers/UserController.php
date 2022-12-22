@@ -18,16 +18,17 @@ class UserController extends Controller
     public function createUser(Request $req){
         $req->validate(
             [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
+                'name' => 'required|min:2',
+                'email' => 'required|email|unique:users,email|min:6',
                 'password' => 'required|confirmed|min:6',
-                'password_confirmation' => 'required'
+                'password_confirmation' => 'required|min:6'
             ]
         );
 
         $usr = new User;
         $usr->name = $req['name'];
         $usr->email = $req['email'];
+        $usr->oauth_type = "manual";
         $usr->password = md5($req['password']);
         $usr->save();
         $arr = ['u_id' => $usr->id];
@@ -46,8 +47,8 @@ class UserController extends Controller
 
         $req->validate(
             [
-                'email' => 'required|email|exists:users,email',
-                'password' => "required"
+                'email' => 'required|email|exists:users,email|min:6',
+                'password' => "required|min:6"
             ]
         );
         
@@ -60,12 +61,13 @@ class UserController extends Controller
         }
 
         $pass = $users[$n]->password;
-        $req->request->add(['password_new' => md5($req->password)]);
-        $req->request->add(['password_old' => $pass]);
+        $req->request->add(['entered_password' => md5($req->password)]);
+        $req->request->add(['exisiting_password' => $pass]);
 
         $req->validate(
             [
-                'password_new' => "required|same:password_old"
+                'password' => 'required|min:6',
+                'entered_password' => "required|same:exisiting_password"
             ]
         );
         

@@ -24,6 +24,15 @@ class MailController extends Controller
     }
 
     public function setMailCred($id, Request $req){
+        $req->validate(
+            [
+                'name' => 'required|min:2',
+                'email' => 'required|email|min:6',
+                'password' => 'required|size:16',
+                'subject' => 'required',
+                'body' => 'required'
+            ]
+        );
         $project_user = DB::table('projects')->select('user')->where('id', '=', $id)->get();
         $project_user = $project_user[0]->user;
         if ($project_user == session()->get('u_id')) {
@@ -38,6 +47,9 @@ class MailController extends Controller
 
     public function sendMail($id){
         $data=DB::table('projects')->select(['template','templateSize','textAttribs','datasrc','dataFileAttribs'])->where('id', '=', $id)->get();
+        if(!isset($data[0]->dataFileAttribs) || !in_array("email", array_values(json_decode($data[0]->dataFileAttribs, true))))
+            return redirect('/show-data'.'/'.$id)->withErrors(['parameterError'=>'Email attribute must be setted on a column.']);
+
         $imgName = $data[0]->template;
         $imgSize = json_decode($data[0]->templateSize);
         $size = getimagesize('uploads/certificates/'.$imgName);

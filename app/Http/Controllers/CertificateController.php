@@ -16,17 +16,27 @@ class CertificateController extends Controller
         // echo "</pre>";
     }
     public function createProject(Request $req){
+        $req->validate(
+            [
+                'projectName' => 'required',
+            ]
+        );
         $project = new Projects;
         $project->project_name = $req->projectName;
         $project->user = $req->session()->get('u_id');
         $project->save();
-        return redirect('/upload-certificate'.'/'.$project->id);
+        return redirect('/certificate'.'/'.$project->id);
     }
     public function uploadCertificate($id){
         $arr = compact('id');
         return view('users.getCertificate')->with($arr);
     }
-    public function storeCertificate($id, Request $req){          
+    public function storeCertificate($id, Request $req){      
+        $req->validate(
+            [
+                'fileUrl' => 'file|mimes:jpg,png|between:200,4096',
+            ]
+        );    
         $file = $req->file('fileUrl');
         if($req->file()){  
             $file = $req->file('fileUrl');
@@ -35,7 +45,7 @@ class CertificateController extends Controller
             DB::table('projects')->where('user', session()->get('u_id'))->where('id', $id)->update([
                 'template' => $fileName,
             ]);    
-            return redirect("/savedCertificate"."/".$id);
+            return redirect("/template"."/".$id);
         }
         else
             return view('error');
@@ -44,8 +54,7 @@ class CertificateController extends Controller
         $img_name = DB::table('projects')->select('template')->where('user', '=', session()->get('u_id'))->where('id', '=', $id)->get();
         $arr = compact('img_name');
         if(is_null($img_name[0]->template)){
-            // echo "<script>alert('First upload the certificate image!');</script>";
-            return redirect('/upload-certificate'.'/'.$id);
+            return redirect('/certificate'.'/'.$id)->withErrors(['uploadError'=>'First upload the certificate template image here.']);
         }
         else{
             $attribs = DB::table('projects')->select(['templateSize','textAttribs'])->where('user', '=', session()->get('u_id'))->where('id', '=', $id)->get();
@@ -56,40 +65,45 @@ class CertificateController extends Controller
     public function setAttributes($id, Request $request){
         $data = $request->except(['_token','imageSize']);
         DB::table('projects')->where('user', '=', session()->get('u_id'))->where('id', $id)->update(['textAttribs' => $data, 'templateSize' => $request->imageSize]);
-        return redirect('/upload-data-table'.'/'.$id);
+        return redirect('/upload-data'.'/'.$id);
     }
     public function uploadDataTable($id){
         $arr = compact('id');
         return view('users.getDataTable')->with($arr);
     }
-    public function storeDataTable($id, Request $request){
-        $file = $request->file('fileUrl');
-        if($request->file()){  
-            $file = $request->file('fileUrl');
+    public function storeDataTable($id, Request $req){
+        $req->validate(
+            [
+                'fileUrl' => 'file|mimes:csv|between:0.1,16384',
+            ]
+        );  
+        $file = $req->file('fileUrl');
+        if($req->file()){  
+            $file = $req->file('fileUrl');
             $fileName = time().'_'.$file->getClientOriginalName();
             $file->move('uploads/excels',$fileName);  
             DB::table('projects')->where('user', '=', session()->get('u_id'))->where('id', $id)->update(['datasrc' => $fileName]);
-            return redirect('/show-data-table'.'/'.$id);
+            return redirect('/show-data'.'/'.$id);
         }
         else
             return view('error');
     }   
     public function showDataTable($id){
-        $fileName=DB::table('projects')->select('datasrc')->where('user', '=', session()->get('u_id'))->where('id', '=', $id)->get();
-        $fileName=$fileName[0]->datasrc;
-        if(is_null($fileName)){
-            // echo "<script>alert('First upload the data file!');</script>";
-            return redirect('/upload-data-table'.'/'.$id);
-        }
+        $querry=DB::table('projects')->select(['datasrc','textAttribs'])->where('user', '=', session()->get('u_id'))->where('id', '=', $id)->get();
+        $fileName=$querry[0]->datasrc;
+        if(is_null($querry[0]->textAttribs))
+            return redirect('/template'.'/'.$id)->withErrors(['uploadError'=>'First set the attributes on the template.']);        
+        else if(is_null($fileName))
+            return redirect('/upload-data'.'/'.$id)->withErrors(['uploadError'=>'First upload the data file.']);        
         else{
-            $attribs=DB::table('projects')->select('textAttribs')->where('id', '=', $id)->get();
             $attribArray = array();
-            foreach(json_decode($attribs[0]->textAttribs) as $text){
+            foreach(json_decode($querry[0]->textAttribs) as $text){
                 if(json_decode($text)->attribType=="dynamic"){
                     $attribArray[] = json_decode($text)->attribName;
                 }
             }
             $dataFileAttribs=DB::table('projects')->select('dataFileAttribs')->where('id', '=', $id)->get();
+            $dataFileAttribs=json_decode(json_decode($dataFileAttribs)[0]->dataFileAttribs, true);
             if (($open = fopen('uploads/excels/'.$fileName, "r")) !== FALSE) 
             {
               while (($data = fgetcsv($open, 0, ",")) !== FALSE) 
@@ -104,11 +118,13 @@ class CertificateController extends Controller
     }
     public function getDataAttribs($id, Request $req){
         $data=$req->except('_token');
-        // $data=array_values($data);
-        // $arr=array();
-        // for ($i=0; $i<count($data); $i++){            
-        //     $arr[$i+1] = $data[$i];
-        // }
+        foreach($data as $key => $value){
+            if(count(array_keys($data, $data[$key])) != 1)
+                return redirect('/show-data'.'/'.$id)->withErrors(['parameterError'=>'You selected '.$data[$key].' attribute for more than 1 column.']);
+        }
+        if (!in_array("email", array_values($data)))
+            return redirect('/show-data'.'/'.$id)->withErrors(['parameterError'=>'Email attribute must be setted on a column.']);
+
         DB::table('projects')->where('user', '=', session()->get('u_id'))->where('id', $id)->update(['dataFileAttribs' => $data]);
         return redirect('/mail-certificate'.'/'.$id);
     }

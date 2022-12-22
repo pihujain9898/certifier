@@ -1,7 +1,7 @@
 @include('layouts.users.header')
 
 
-
+<header>
 
 <video autoplay loop class="home-header-bg" muted plays-inline id="bgVideo">
     <source src="{{ asset('users/img/bg.mp4') }}" type="video/mp4" playbakrate>
@@ -27,15 +27,29 @@
             </span>
         </div>
 
-        <div class="form-item">
-            {{-- <i class="bi bi-eye-fill pas-vis-btn"></i> --}}
-            <input type="password" name="password" required="required" placeholder="Password" required>
+        <div class="form-item" style="height: 64px">
+            <i class="bi bi-eye-fill pas-vis-btn" onclick="passwordShow()"></i>
+            <input type="password" name="password" required="required" placeholder="Password" required style="transform: translateY(-30px);">
             <span class="text-danger">
-                @error('password_new')
+                @error('entered_password')
+                    {{ $message }}
+                @enderror
+            </span>
+            <span class="text-danger">
+                @error('password')
                     {{ $message }}
                 @enderror
             </span>
         </div>
+        <script>
+            function passwordShow(){
+                if($(".form-item input[name='password']")[0].type == "password"){
+                    $(".form-item input[name='password']")[0].type = "text"
+                } else{
+                    $(".form-item input[name='password']")[0].type = "password";
+                }
+            }
+        </script>
 
         <div class="button-panel">
             <input type="submit" class="button" title="Log In" name="login" value="Login">
@@ -43,9 +57,9 @@
     </form>
     <div class="reminder">
         <center>
-            <a href="{{ url('auth/facebook') }}"><img class="login-icon" src="{{ asset('users/img/facebook.png') }}" alt="Facebook Icon"></a>
-            <a href="{{ url('auth/google') }}"><img class="login-icon" src="{{ asset('users/img/search.png') }}" alt="Google Icon"></a>
-            <a href="{{ url('auth/github') }}"><img class="login-icon" src="{{ asset('users/img/github.png') }}" alt="Github Icon"></a>
+            <a href="{{ url('login/twitter') }}"><img class="login-icon" src="{{ asset('users/img/twitter.png') }}" alt="Twitter Icon"></a>
+            <a href="{{ url('login/google') }}"><img class="login-icon" src="{{ asset('users/img/search.png') }}" alt="Google Icon"></a>
+            <a href="{{ url('login/github') }}"><img class="login-icon" src="{{ asset('users/img/github.png') }}" alt="Github Icon"></a>
         </center>
         <a href="/signup" id="siginup-page">Not a member? Sign up now</a>
         <p><a href="#">Forgot password?</a></p>

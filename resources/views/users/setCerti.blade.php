@@ -1,10 +1,15 @@
 @include('layouts.users.header')
-
+@error('uploadError')
+<div class="mt-5 error-notification">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+  {{ $message }}
+</div>
+@enderror
 <header class="mt-5 container-fluid row certificate-page">
     <div class="col-md-8 ceritificate-box">
         <img id="certificate-img" src="{{url("uploads/certificates") . "/" . $img_name[0]->template}}" alt="">
     </div>
-    <form action="{{url('/set-attributes').'/'.$id}}" method="POST" id="textParent" class="col-md-4 ceritificate-control-box">
+    <form action="{{url('/template').'/'.$id}}" method="POST" id="textParent" class="col-md-4 ceritificate-control-box">
         @csrf
         <div id="textChild" class="container row">
             <div class="col-sm-12 row mb-3">

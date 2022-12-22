@@ -5,6 +5,7 @@
 
 body {
     margin: 0 10vw;
+    overflow: scroll;
 }
 
 .nav-link {
@@ -15,7 +16,9 @@ body {
 .navbar-brand:hover {
     color: rgb(234, 234, 234);
 }
-
+.navbar-toggler-icon{
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
 .navbar-brand,
 .navbar-nav .nav-link.active {
     color: rgb(236, 236, 236);
@@ -24,7 +27,6 @@ body {
 .drag-box {
     border: 2px solid lightgrey;
     height: 40vh;
-    margin-top: 20vh;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -45,7 +47,11 @@ body {
     width: 100%;
     height: 100%;
 }
-
+.drag-msg{
+    font-size: small;
+    color: grey;
+    margin-bottom: 0.1rem;
+}
 .certificate-page {
     margin: auto;
     padding: 0;
@@ -137,14 +143,20 @@ body {
         height: 100vh;
     }
 }
-
 @media screen and (min-width: 800px) {
+    body{
+        overflow: hidden;
+    }
     .home-header-bg {
         width: auto;
         height: 200vh;
     }
 }
-
+@media screen and (max-height: 540px) {
+    body{
+        overflow: scroll;
+    }
+}
 @media screen and (min-width: 1600px) {
     .home-header-bg {
         width: auto;
@@ -207,7 +219,7 @@ body {
     background-position: 10px 50%;
 }
 
-.form-item input[type='text'] {
+.form-item input[name='name'] {
     background: transparent url("img/user.png") no-repeat;
     background-position: 10px 50%;
 
@@ -272,7 +284,6 @@ body {
     color: whitesmoke;
     opacity: 1;
 }
-
 .login-icon {
     width: 1.8em;
     margin: 0 0.4em 1em;
@@ -281,12 +292,13 @@ body {
 form span {
     font-size: 0.8rem;
 }
-
 .pas-vis-btn {
     position: relative;
-    top: -41px;
+    top: 20px;
     left: 221px;
     font-size: 1.25em;
+    cursor: pointer;
+    z-index: 1;
 }
 
 /* Project Page */
@@ -302,6 +314,17 @@ form span {
 .projects-heading{
     color: white;
     margin-top: 5.4em;
+}
+@media (max-width: 500px) {
+    .project-header{
+        height: 236px;
+    }
+    .projects-heading{
+        margin-top: 3.2em;
+    }
+    .drag-box {
+        height: 40vh;
+    }
 }
 .project-container{
     padding: 0;
@@ -418,9 +441,20 @@ form span {
 .mail-attrib-box input::placeholder{
     color: grey;
 }
+.mail-attrib-box a{
+    text-decoration: none;
+    color: grey;
+    font-size: small;
+    margin-bottom: 1px;
+}
+.mail-attrib-box a:hover{
+    color: black;
+    text-decoration: underline;
+    text-decoration-color: black;
+}
 .mail-page textarea{
     width: 100%;
-    height: 41vh;
+    height: 34vh;
     padding: .3rem .5rem;
 }
 .mail-page textarea::placeholder{
@@ -433,6 +467,9 @@ form span {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+}
+.textarea-box div{
+    margin-bottom: 2rem;
 }
 @media (max-width: 900px) {
     .textarea-box{
@@ -449,4 +486,23 @@ form span {
 }
 .btn-info{
     color: #fff;
+}
+.error-notification{
+    padding: 15px;
+    background-color: #f44336;
+    color: white;
+    margin-bottom: 2px;
+}
+.error-notification span{
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.error-notification span:hover{
+    color: black;
 }

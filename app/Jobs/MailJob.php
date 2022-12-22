@@ -49,10 +49,10 @@ class MailJob implements ShouldQueue
         $mail->addAddress($value);
 
         if($ext == "png"){
-            $created_img = imagecreatefrompng(url('uploads/certificates/'.$imgName));
+            $created_img = imagecreatefrompng(public_path('uploads/certificates/'.$imgName));
         }
         else{
-            $created_img = imagecreatefromjpeg(url('uploads/certificates/'.$imgName));
+            $created_img = imagecreatefromjpeg(public_path('uploads/certificates/'.$imgName));
         }
         $color = imagecolorallocate($created_img, 0, 0, 0);
         
@@ -61,14 +61,14 @@ class MailJob implements ShouldQueue
             $y_pos_given=(float)json_decode($querry)->yPosition;
             $font_size = ((float)json_decode($querry)->fontSize/1.6)*(($width_ratio+$height_ratio)/2);
             $angle=0;
-            $font_path = 'public\\SegoeUI.ttf';
+            $font_path = public_path('SegoeUI.ttf');
             if (json_decode($querry)->attribType == 'static')
                 $text = json_decode($querry)->attribSample;
             else{
                 $colAttribs = json_decode($data[0]->dataFileAttribs,true);
                 $column_no = array_search(json_decode($querry)->attribName,$colAttribs,true);                
                 $array=array();
-                if (($open = fopen(url('uploads/excels/'.$filename), "r")) !== FALSE) 
+                if (($open = fopen(public_path('uploads/excels/'.$filename), "r")) !== FALSE) 
                 {
                   while (($dataOfCsv = fgetcsv($open, 0, ",")) !== FALSE) 
                   {        
@@ -86,13 +86,13 @@ class MailJob implements ShouldQueue
             imagettftext($created_img, $font_size, $angle, $x_pos_taken, $y_pos_taken, $color, $font_path, $text);            
         }
         if($ext == "png")
-            imagepng($created_img,'Certificate.'.$ext);            
+            imagepng($created_img, public_path('Certificate.'.$ext));
         else
-            imagejpeg($created_img,'Certificate.'.$ext);
+            imagejpeg($created_img, public_path('Certificate.'.$ext));
         imagedestroy($created_img);
         
-        $attachment = 'Certificate.'.$ext;
-        $mail->AddAttachment($attachment , $attachment);
+        $attachment = public_path('Certificate.'.$ext);
+        $mail->AddAttachment($attachment , 'Certificate.'.$ext);
         try {
             if( !$mail->send() ) {
                 return back()->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);

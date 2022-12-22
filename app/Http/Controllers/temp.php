@@ -1,8 +1,8 @@
-ErrorException: Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wecertify\app\Jobs\MailJob.php:130) in C:\xampp\htdocs\wecertify\app\Jobs\MailJob.php:80
+ErrorException: imagecreatefrompng(http://127.0.0.1:8000/uploads/certificates/1671444302_certificate.png): Failed to open stream: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\wecertify\app\Jobs\MailJob.php:52
 Stack trace:
-#0 C:\xampp\htdocs\wecertify\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\HandleExceptions.php(259): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'Cannot modify h...', 'C:\\xampp\\htdocs...', 80)
-#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}(2, 'Cannot modify h...', 'C:\\xampp\\htdocs...', 80)
-#2 C:\xampp\htdocs\wecertify\app\Jobs\MailJob.php(80): header('Content-type: i...')
+#0 C:\xampp\htdocs\wecertify\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\HandleExceptions.php(259): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'imagecreatefrom...', 'C:\\xampp\\htdocs...', 52)
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}(2, 'imagecreatefrom...', 'C:\\xampp\\htdocs...', 52)
+#2 C:\xampp\htdocs\wecertify\app\Jobs\MailJob.php(52): imagecreatefrompng('http://127.0.0....')
 #3 C:\xampp\htdocs\wecertify\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php(36): App\Jobs\MailJob->handle()
 #4 C:\xampp\htdocs\wecertify\vendor\laravel\framework\src\Illuminate\Container\Util.php(41): Illuminate\Container\BoundMethod::Illuminate\Container\{closure}()
 #5 C:\xampp\htdocs\wecertify\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php(93): Illuminate\Container\Util::unwrapIfClosure(Object(Closure))
