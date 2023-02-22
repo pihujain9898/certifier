@@ -22,9 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'u_type',
-        'google_id',
-        'twitter_id',
-        'github_id',
+        'social_id',
         'oauth_type',
     ];
 

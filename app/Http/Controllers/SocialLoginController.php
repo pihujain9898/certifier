@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 
-class GoogleLoginController extends Controller
+class SocialLoginController extends Controller
 {
     public function redirect($provider) {
         return Socialite::driver($provider)->redirect();
@@ -15,7 +15,7 @@ class GoogleLoginController extends Controller
     public function callback($provider) {
         try {
             $user = Socialite::driver($provider)->user();
-            $finduser = User::where('social_id', $user->id)->first();
+            $finduser = User::where('email', $user->email)->first();
             if ( $finduser ) {
                 Auth::login($finduser);
                 $arr = ['u_id' => $finduser->id];

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("name");
             $table->string("password");
             $table->string("subject");
-            $table->string("body");
+            $table->mediumText("body");
             $table->timestamps();
         });
     }

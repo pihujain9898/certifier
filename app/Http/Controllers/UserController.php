@@ -18,10 +18,10 @@ class UserController extends Controller
     public function createUser(Request $req){
         $req->validate(
             [
-                'name' => 'required|min:2',
-                'email' => 'required|email|unique:users,email|min:6',
-                'password' => 'required|confirmed|min:6',
-                'password_confirmation' => 'required|min:6'
+                'name' => 'required|min:2|max:255',
+                'email' => 'required|email|unique:users,email|min:6|max:255',
+                'password' => 'required|confirmed|min:6|max:255',
+                'password_confirmation' => 'required|min:6|max:255'
             ]
         );
 

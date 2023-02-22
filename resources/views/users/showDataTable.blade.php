@@ -17,7 +17,7 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        @for($i=0; $i<count($array[0]); $i++)
+        @for($i=0; $i<count(json_decode($datasrc)[0]); $i++)
             <th scope="col">
                 <select class="form-select data-table-dropbox" name="{{$i}}">
                   @if(isset($dataFileAttribs) && !in_array($i, array_keys($dataFileAttribs)))
@@ -43,7 +43,7 @@
       </tr>
     </thead>
     <tbody>
-      @foreach ($array as $item)
+      @foreach (json_decode($datasrc) as $item)
         <tr>
           @foreach ($item as $value)
             <td>

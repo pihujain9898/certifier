@@ -11,6 +11,7 @@
     </div>
     <form action="{{url('/template').'/'.$id}}" method="POST" id="textParent" class="col-md-4 ceritificate-control-box">
         @csrf
+        <input type="hidden" name="imageSize" value="{{$attribs[0]->templateSize}}">
         <div id="textChild" class="container row">
             <div class="col-sm-12 row mb-3">
                 <label class="col-sm-3" for="attrib-type" for="font-size">TYPE</label>
@@ -27,12 +28,12 @@
                 <label class="col-sm-3" for="sample-text" for="font-size">SAMPLE</label>
                 <input class="col-sm-9" type="text" id="sample-text" onkeyup="sampleText()">
             </div>
-            <div class="col-sm-12 row">
-                <label class="col-sm-3" for="font-size">SIZE</label>
-                <input id="font-size" class="col-sm-3" type="text" onkeyup="changeFontSize()">
-                <div class="row col-sm-6" style="justify-content: flex-end;">
-                    <button type="button" class="btn btn-dark col-sm-4" onclick="increaseSize()">+</button>
-                    <button type="button" class="btn btn-dark col-sm-4" onclick="decreaseSize()">-</button>
+            <div class="changeFontSize">
+                <label class="" for="font-size">SIZE</label>
+                <input id="font-size" class="" type="text" onkeyup="changeFontSize()">
+                <div class="">
+                    <button type="button" class="btn btn-dark" onclick="increaseSize()">+</button>
+                    <button type="button" class="btn btn-dark" onclick="decreaseSize()">-</button>
                 </div>
             </div>
         </div>
@@ -41,26 +42,25 @@
 
         @if(!empty($attribs[0]->textAttribs))
         @php
+        $imgName = $img_name[0]->template;
+        $imgSize = json_decode($attribs[0]->templateSize);
+        $size = getimagesize('uploads/certificates/'.$imgName);
+        
+        $orignal_width=$size[0];
+        $orignal_height=$size[1];
+        $display_width=$imgSize->imgWidth;
+        $display_height=$imgSize->imgHeight;
+
+        $fontRatio=($display_width/$orignal_width + $display_height/$orignal_height)/2;
         $i= 0;    
         @endphp
         @foreach (json_decode($attribs[0]->textAttribs) as $text)
-        <div class="scrollText savedscrollText" data-id="{{$i}}" onclick="showAttribs({{$i}})" style="font-size:{{json_decode($text)->fontSize}}; cursor: grab; top: {{json_decode($text)->yPosition}}; left: {{json_decode($text)->xPosition}};">{{json_decode($text)->attribSample}}</div>
         <input class="scrollInput" type="hidden" data-id="{{$i}}" name="{{json_decode($text)->attribName}}" value='{"attribType":"{{json_decode($text)->attribType}}","attribName":"{{json_decode($text)->attribName}}","attribSample":"{{json_decode($text)->attribSample}}","fontSize":"{{json_decode($text)->fontSize}}","xPosition":"{{json_decode($text)->xPosition}}","yPosition":"{{json_decode($text)->yPosition}}"}'>
         @php $i++; @endphp
         @endforeach
-        <script>
-        elementCount={{count((array)json_decode($attribs[0]->textAttribs))-1;}};
-        let certifImg = document.getElementById("certificate-img");
-        var item;
-        for (var i=0; i<document.getElementsByClassName('savedscrollText').length; i++){
-            item=document.getElementsByClassName('savedscrollText')[i];
-            item.style.left = (parseInt(item.style.left)+parseInt(certifImg.offsetLeft)-parseInt(item.offsetWidth/2))+"px";
-            item.style.top = (parseInt(item.style.top)+parseInt(certifImg.offsetTop)-parseInt(item.offsetHeight/2)-10)+"px";
-        }
-        </script>
         @endif
-
     </form>
+    
     <script src="{{asset('users/js/text.js')}}"></script>
 </header>
 

@@ -19,8 +19,6 @@ Route::get('/login/{provider}/callback', [SocialLoginController::class, 'callbac
 Route::get('/signup', [UserController::class, 'showSignup']);
 Route::post('/signup', [UserController::class, 'createUser']);
 
-// Route::get('/home', [UserController::class, 'showDashboard']);
-
 // Put user middleware here
 Route::middleware(['middleware' => 'userLogin'])->group(function () {
     Route::get('/logout', [UserController::class, 'logout']);

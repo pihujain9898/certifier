@@ -20,7 +20,7 @@
         <input type="file" id="fileInput" accept="image/png, image/jpg, image/jpeg" name="fileUrl">
     </div>
     <p class="drag-msg">*Image must be in format of png/jpg/jpeg.</p>
-    <p class="drag-msg">*Image size must be in between 200KB to 4MB</p>
+    <p class="drag-msg">*Image size must be in between 20KB to 2MB</p>
 </form>
 <script src="{{url('users/js/index.js')}}"></script>
 

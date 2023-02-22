@@ -1,0 +1,153 @@
+/* Home page background */
+.custom-nav{
+    margin-top: .5rem;
+    animation: navDown .8s 0s 1 normal ease-out;
+}
+@keyframes navDown {
+    from {
+        transform: translateY(-200%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+.home-nav{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 82px;
+    width: 100%;
+    z-index: -1;
+    background-color: #212529;
+    border-bottom-left-radius: 50% 50%;
+    border-bottom-right-radius: 50% 50%;
+    box-shadow: 5px 5px 10px 0px rgba(0,0,0,.5);
+    animation: navCurveDown .5s 0s 1 normal ease-out;
+}
+@keyframes navCurveDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+#homeBgVid{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -2;
+    width: 100%;
+    height: auto;
+}
+/* Home page main and its contents */
+header{
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.home-main{
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+    animation: homeDiv 1s 0s 1 normal ease-out;
+}
+@keyframes homeDiv {
+    from {
+        opacity: 0;
+        transform: scale(0);
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+        transform: translateY(0%);
+    }
+}
+.home-main p{
+    margin-bottom: 0;
+    color: rgb(124, 124, 124);
+}
+.home-main .lower-p{
+    color: rgb(78, 78, 78);
+}
+.home-main h1{
+    width: 364px;
+    font-size: 3.2em;
+    font-weight: bolder;
+}
+.home-main span{
+    color: #0D6EFD;
+}
+.home-main a{
+    /* display: inline-block; */
+    width: 78px;
+    padding-bottom: .4rem;
+    text-decoration: none;
+    border-bottom: 2px solid #0D6EFD;
+    text-align: center;
+    animation: 2s anim-popoutin ease infinite; 
+    /* margin-left: 5px;    */
+
+}
+/* For mobile landscape */
+@media screen and (max-height: 540px) {
+    .home-main{
+        margin-top: 8.4rem;
+    }
+}
+/* For mobile Potrait View */
+@media screen and (max-width: 600px) {
+    @keyframes homeDiv {
+        from {
+            opacity: 0;
+            transform: scale(0);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+    #homeBgVid{
+        position: fixed;
+        height: 100%;
+        width: auto;
+        transform: translateX(-62.5%);
+    }
+    .home-main{
+        text-align: center;
+        margin-left: 0rem;
+    }
+    .home-main p{
+        color: #555;
+    }
+    .home-main h1, .home-main a{
+        width: auto;
+    }
+    .home-main a{
+        border-bottom: none;
+        text-decoration: underline;
+    }
+}
+ 
+@keyframes anim-popoutin {
+  0% {
+    margin-left: 0px;   
+    transform: scale(1);
+  }
+  50% {
+    margin-left: 10px;   
+    transform: scale(1.35);
+    }
+  100% {
+    margin-left: 0px;   
+    transform: scale(1);
+    }
+}
+
+main{
+    width: 100%;
+    height: 100vh;
+    border: 4px solid red;
+}

@@ -17,9 +17,9 @@ class MailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     
-    public $mail, $value, $ext, $imgName, $querries, $width_ratio, $height_ratio, $data, $filename, $count;
+    public $mail, $value, $ext, $imgName, $querries, $width_ratio, $height_ratio, $data, $count, $font_ratio;
 
-    public function __construct($mail, $value, $ext, $imgName, $querries, $width_ratio, $height_ratio, $data, $filename, $count)
+    public function __construct($mail, $value, $ext, $imgName, $querries, $width_ratio, $height_ratio, $data, $count, $font_ratio)
     {
         $this->mail = $mail;
         $this->value = $value;
@@ -29,8 +29,8 @@ class MailJob implements ShouldQueue
         $this->width_ratio = $width_ratio;
         $this->height_ratio = $height_ratio;
         $this->data = $data;
-        $this->filename = $filename;
         $this->count = $count;
+        $this->font_ratio = $font_ratio;
     }
 
     public function handle(){
@@ -42,11 +42,11 @@ class MailJob implements ShouldQueue
         $width_ratio = $this->width_ratio;
         $height_ratio = $this->height_ratio;
         $data = $this->data;
-        $filename = $this->filename;
         $count = $this->count;
+        $font_ratio = $this->font_ratio;
 
         $mail->clearAllRecipients();
-        $mail->addAddress($value);
+        $mail->addAddress($value[0]);
 
         if($ext == "png"){
             $created_img = imagecreatefrompng(public_path('uploads/certificates/'.$imgName));
@@ -59,24 +59,15 @@ class MailJob implements ShouldQueue
         foreach ($querries as $querryName => $querry) {
             $x_pos_given=(float)json_decode($querry)->xPosition;
             $y_pos_given=(float)json_decode($querry)->yPosition;
-            $font_size = ((float)json_decode($querry)->fontSize/1.6)*(($width_ratio+$height_ratio)/2);
+            $font_size = ((float)json_decode($querry)->fontSize)*$font_ratio*16;
             $angle=0;
             $font_path = public_path('SegoeUI.ttf');
             if (json_decode($querry)->attribType == 'static')
                 $text = json_decode($querry)->attribSample;
             else{
-                $colAttribs = json_decode($data[0]->dataFileAttribs,true);
+                $colAttribs = json_decode($data->dataFileAttribs,true);
                 $column_no = array_search(json_decode($querry)->attribName,$colAttribs,true);                
-                $array=array();
-                if (($open = fopen(public_path('uploads/excels/'.$filename), "r")) !== FALSE) 
-                {
-                  while (($dataOfCsv = fgetcsv($open, 0, ",")) !== FALSE) 
-                  {        
-                    $array[] = $dataOfCsv[$column_no]; 
-                  }
-                  fclose($open);
-                }                
-                $text=$array[$count];
+                $text = json_decode($data->datasrc, true)[$count][$column_no]; 
             }
             list($left, $bottom, $right, , , $top) = imageftbbox($font_size, $angle, $font_path, $text);
             $left_offset = ($right - $left) / 2;

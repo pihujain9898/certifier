@@ -1,17 +1,27 @@
 @include('layouts.users.header')
 
+<style>
+@media screen and (min-width: 800px) {
+    body{
+        overflow: hidden;
+    }
+}
+@media screen and (max-height: 540px) {
+    body{
+        overflow: scroll;
+    }
+}
+</style>
 
 <header>
-
-<video autoplay loop class="home-header-bg" muted plays-inline id="bgVideo">
+<video autoplay loop class="login-header-bg" muted plays-inline id="loginBgVideo">
     <source src="{{ asset('users/img/bg.mp4') }}" type="video/mp4" playbakrate>
 </video>
 <script>
-    var vid = document.getElementById("bgVideo");
+    var vid = document.getElementById("loginBgVideo");
     vid.playbackRate = 0.5;
 </script>
 <div class="form-wrapper">
-
     <form action="{{url('/login')}}" method="post" name="myform">
         @csrf
         <h3 class="form-heading">Login here</h3>
@@ -57,7 +67,7 @@
     </form>
     <div class="reminder">
         <center>
-            <a href="{{ url('login/twitter') }}"><img class="login-icon" src="{{ asset('users/img/twitter.png') }}" alt="Twitter Icon"></a>
+            <a href="{{ url('login/facebook') }}"><img class="login-icon" src="{{ asset('users/img/facebook.png') }}" alt="Facebook Icon"></a>
             <a href="{{ url('login/google') }}"><img class="login-icon" src="{{ asset('users/img/search.png') }}" alt="Google Icon"></a>
             <a href="{{ url('login/github') }}"><img class="login-icon" src="{{ asset('users/img/github.png') }}" alt="Github Icon"></a>
         </center>

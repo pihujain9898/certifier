@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Projects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ImportExcel;
 
 class CertificateController extends Controller
 {
@@ -16,11 +18,7 @@ class CertificateController extends Controller
         // echo "</pre>";
     }
     public function createProject(Request $req){
-        $req->validate(
-            [
-                'projectName' => 'required',
-            ]
-        );
+        $req->validate(['projectName' => 'required|max:255',]);
         $project = new Projects;
         $project->project_name = $req->projectName;
         $project->user = $req->session()->get('u_id');
@@ -32,11 +30,7 @@ class CertificateController extends Controller
         return view('users.getCertificate')->with($arr);
     }
     public function storeCertificate($id, Request $req){      
-        $req->validate(
-            [
-                'fileUrl' => 'file|mimes:jpg,png|between:200,4096',
-            ]
-        );    
+        $req->validate(['fileUrl' => 'file|mimes:jpg,png|between:20,2048']);    
         $file = $req->file('fileUrl');
         if($req->file()){  
             $file = $req->file('fileUrl');
@@ -72,28 +66,19 @@ class CertificateController extends Controller
         return view('users.getDataTable')->with($arr);
     }
     public function storeDataTable($id, Request $req){
-        $req->validate(
-            [
-                'fileUrl' => 'file|mimes:csv|between:0.1,16384',
-            ]
-        );  
-        $file = $req->file('fileUrl');
-        if($req->file()){  
-            $file = $req->file('fileUrl');
-            $fileName = time().'_'.$file->getClientOriginalName();
-            $file->move('uploads/excels',$fileName);  
-            DB::table('projects')->where('user', '=', session()->get('u_id'))->where('id', $id)->update(['datasrc' => $fileName]);
-            return redirect('/show-data'.'/'.$id);
-        }
-        else
-            return view('error');
+        $req->validate(['fileUrl' => 'file|mimes:csv,xlsx,xls|between:0.1,16384',]);  
+        Excel::import(new ImportExcel($id), $req->file('fileUrl')->store('files')); 
+        return redirect('/show-data'.'/'.$id);
+
     }   
     public function showDataTable($id){
-        $querry=DB::table('projects')->select(['datasrc','textAttribs'])->where('user', '=', session()->get('u_id'))->where('id', '=', $id)->get();
-        $fileName=$querry[0]->datasrc;
+        $querry = DB::table('projects')->join('data', 'projects.id', '=', 'data.id')
+            ->select('data.datasrc', 'projects.textAttribs', 'data.dataFileAttribs')
+            ->where('projects.user', '=', session()->get('u_id'))->where('projects.id', '=', $id)->get();
+        $datasrc=$querry[0]->datasrc;
         if(is_null($querry[0]->textAttribs))
             return redirect('/template'.'/'.$id)->withErrors(['uploadError'=>'First set the attributes on the template.']);        
-        else if(is_null($fileName))
+        else if(is_null($datasrc))
             return redirect('/upload-data'.'/'.$id)->withErrors(['uploadError'=>'First upload the data file.']);        
         else{
             $attribArray = array();
@@ -102,17 +87,8 @@ class CertificateController extends Controller
                     $attribArray[] = json_decode($text)->attribName;
                 }
             }
-            $dataFileAttribs=DB::table('projects')->select('dataFileAttribs')->where('id', '=', $id)->get();
-            $dataFileAttribs=json_decode(json_decode($dataFileAttribs)[0]->dataFileAttribs, true);
-            if (($open = fopen('uploads/excels/'.$fileName, "r")) !== FALSE) 
-            {
-              while (($data = fgetcsv($open, 0, ",")) !== FALSE) 
-              {        
-                $array[] = $data; 
-              }
-              fclose($open);
-            }
-            $data_to_send = compact(['array','attribArray', 'id', 'dataFileAttribs']);
+            $dataFileAttribs=json_decode($querry[0]->dataFileAttribs, true);
+            $data_to_send = compact(['datasrc','attribArray', 'id', 'dataFileAttribs']);
             return view('users.showDataTable')->with($data_to_send);
         }
     }
@@ -125,7 +101,9 @@ class CertificateController extends Controller
         if (!in_array("email", array_values($data)))
             return redirect('/show-data'.'/'.$id)->withErrors(['parameterError'=>'Email attribute must be setted on a column.']);
 
-        DB::table('projects')->where('user', '=', session()->get('u_id'))->where('id', $id)->update(['dataFileAttribs' => $data]);
+        DB::table('data')->join('projects', 'projects.id', '=', 'data.id')
+            ->where('projects.user', '=', session()->get('u_id'))->where('projects.id', '=', $id)
+            ->update(['data.dataFileAttribs' => $data]);
         return redirect('/mail-certificate'.'/'.$id);
     }
 

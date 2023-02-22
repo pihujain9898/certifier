@@ -20,8 +20,6 @@ return new class extends Migration
             $table->string("template")->nullable();
             $table->json("templateSize")->nullable();
             $table->json("textAttribs")->nullable();
-            $table->string("datasrc")->nullable();
-            $table->json("dataFileAttribs")->nullable();
             $table->timestamps();
 
         });

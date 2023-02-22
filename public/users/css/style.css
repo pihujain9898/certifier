@@ -5,13 +5,13 @@
 
 body {
     margin: 0 10vw;
-    overflow: scroll;
 }
-
+.custom-nav{
+    margin-top: 1rem;
+}
 .nav-link {
     color: rgb(187, 187, 187);
 }
-
 .nav-link:hover,
 .navbar-brand:hover {
     color: rgb(234, 234, 234);
@@ -87,16 +87,41 @@ body {
         margin: 1rem 0 0 0;
     }
 }
-
 .scrollText {
     position: absolute;
-    top: 42vh;
-    left: 35vw;
     z-index: 3;
     user-select: none;
     cursor: grab;
+    touch-action:none;
 }
-
+.scrollTextSelected{
+    border: 2px solid rgba(139,61,255,0.6);
+}
+.text-corners{
+    position: absolute;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: whitesmoke;
+    border-radius: 50%;
+    box-shadow: 0px 0px 1px 1px #88888825;
+}
+.text-corner-top-left{
+    top: -3.5px;
+    left:-3.5px;
+}
+.text-corner-top-right{
+    top: -3.5px;
+    right:-3.5px;
+}
+.text-corner-bottom-left{
+    bottom: -3.5px;
+    left:-3.5px;
+}
+.text-corner-bottom-right{
+    bottom: -3.5px;
+    right:-3.5px;
+}
 #textChild {
     display: none;
     justify-content: space-between;
@@ -111,15 +136,33 @@ body {
 #textChild div,
 #textChild div input,
 #textChild div label,
-#textChild div button {
+#textChild div button,  #textChild select{
     padding: 0;
     margin: 0;
 }
+/* #textChild div input, #textChild select{
+    height: 90%;
+}  */
+#textChild div input{
+    padding: 0rem 0rem 0rem 0.2rem;
+}
 
-
+.changeFontSize, .changeFontSize div{
+    display: flex;
+    justify-content: space-between;
+}
+.changeFontSize div{
+    width: 26%;
+}
+.changeFontSize input{
+    width: 36%;
+}
+.changeFontSize div button{
+    width: 32px;
+}
 
 /* Login Page */
-.home-header-bg {
+.login-header-bg {
     position: absolute;
     right: 0;
     top: 0;
@@ -131,34 +174,26 @@ body {
 }
 
 @media (min-aspect-ratio: 16 / 9) {
-    .home-header-bg {
+    .login-header-bg {
         width: 100vw;
         height: auto;
     }
 }
 
 @media (max-aspect-ratio: 9 / 16) {
-    .home-header-bg {
+    .login-header-bg {
         width: auto;
         height: 100vh;
     }
 }
 @media screen and (min-width: 800px) {
-    body{
-        overflow: hidden;
-    }
-    .home-header-bg {
+    .login-header-bg {
         width: auto;
         height: 200vh;
     }
 }
-@media screen and (max-height: 540px) {
-    body{
-        overflow: scroll;
-    }
-}
 @media screen and (min-width: 1600px) {
-    .home-header-bg {
+    .login-header-bg {
         width: auto;
         height: 120vh;
     }
@@ -288,7 +323,10 @@ body {
     width: 1.8em;
     margin: 0 0.4em 1em;
 }
-
+.login-disabled{
+    pointer-events: none;
+    cursor: none;
+}
 form span {
     font-size: 0.8rem;
 }
